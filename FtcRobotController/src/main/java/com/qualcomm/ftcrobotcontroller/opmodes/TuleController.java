@@ -4,6 +4,7 @@ public class TuleController extends TuleControlFunctions {
 
     boolean reverseControl = false;
     double lid_timer = 0.0f;
+    double scoop_timer = 0.0f;
 
     public TuleController() {
 
@@ -22,6 +23,11 @@ public class TuleController extends TuleControlFunctions {
             lid_timer = 0.0f;
         }
 
+        scoop_timer = scoop_timer - 0.05f;
+        if (scoop_timer < 0.0f) {
+            scoop_timer = 0.0f;
+        }
+
         if (gamepad1.a) {
             reverseControl = true;
         } else if (gamepad1.b) {
@@ -35,15 +41,35 @@ public class TuleController extends TuleControlFunctions {
         }
 
         if (-gamepad2.right_stick_y > 0.2f) {
-            setArmPower(1.0f);
+            setArmPower(0.8f);
         } else if (-gamepad2.right_stick_y < -0.2f) {
-            setArmPower(-1.0f);
+            setArmPower(-0.8f);
         } else {
             setArmPower(0.0f);
         }
 
         if (Math.abs(gamepad2.left_stick_y) > 0.2) {
-            setMotorPower(pivot, -gamepad2.left_stick_y);
+            setScoop = false;
+            setMotorPower(scoop, -gamepad2.left_stick_y);
+        } else if ((gamepad2.left_stick_button && scoop_timer == 0.0f) || setScoop) {
+            if (scoop_timer == 0.0f || setScoop) {
+                if (!setScoop) {
+                    scoop_timer = 1.0f;
+                }
+                if ((setScoop && motorPower(scoop) > 0) || motorPosition(scoop) < 10f) {
+                    setScoopPosition(220f, 0.8f);
+                } else {
+                    setScoopPosition(0f, -0.8f);
+                }
+            }
+        } else {
+            setMotorPower(scoop, 0.0f);
+        }
+
+        if (gamepad2.dpad_up) {
+            setMotorPower(pivot, 0.8f);
+        } else if (gamepad2.dpad_down) {
+            setMotorPower(pivot, -0.8f);
         } else {
             setMotorPower(pivot, 0.0f);
         }
@@ -68,11 +94,14 @@ public class TuleController extends TuleControlFunctions {
             if (lid_timer == 0.0f) {
                 lid_timer = 1.0f;
                 if (servoLid_Position() > 0.99f) {
-                    setLidPosition(1.0f);
-                } else {
                     setLidPosition(0.0f);
+                } else {
+                    setLidPosition(1.0f);
                 }
             }
+        }
+
+        if (navX_value("pitch") > 30) {
         }
 
         updateTelemetry();

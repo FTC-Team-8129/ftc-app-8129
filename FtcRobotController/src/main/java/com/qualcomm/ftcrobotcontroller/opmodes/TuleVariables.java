@@ -7,14 +7,21 @@ public class TuleVariables extends TuleNavX {
 	}
 
 	final double COUNTS_PER_REVOLUTION_N40 = 1120;
-    final double GEAR_RATIO_DRIVE = 2;
+    final double COUNTS_PER_REVOLUTION_N60 = 1680;
+
+    final double GEAR_RATIO_DRIVE = 1;
     final double WHEEL_DIAMETER = 3;
     final double TURN_DIAMETER = 18;
-
     final double COUNTS_PER_INCH_DRIVE =
             COUNTS_PER_REVOLUTION_N40*GEAR_RATIO_DRIVE/(WHEEL_DIAMETER*Math.PI);
     final double COUNTS_PER_DEGREE_DRIVE =
             (COUNTS_PER_INCH_DRIVE*Math.PI*TURN_DIAMETER)/360;
+
+    final double GEAR_RATIO_SCOOP = 2;
+    final double COUNTS_PER_DEGREE_SCOOP =
+            (COUNTS_PER_REVOLUTION_N40*GEAR_RATIO_SCOOP)/360;
+
+    boolean setScoop = false;
 
 	double last_driveRightCount = 0.0f;
     double current_driveRightCount = 0.0f;
@@ -24,16 +31,6 @@ public class TuleVariables extends TuleNavX {
     double current_driveTime = 0.0f;
     double driveLeftScale = 1.0f;
     double driveRightScale = 1.0f;
-    double last_driveLeft_E = 0.0f;
-    double current_driveLeft_E = 0.0f;
-    double last_driveRight_E = 0.0f;
-    double current_driveRight_E = 0.0f;
-	double driveLeft_Kp = 0.0f;
-	double driveLeft_Ki = 0.0f;
-	double driveLeft_Kd = 0.0f;
-	double driveRight_Kp = 0.0f;
-	double driveRight_Ki = 0.0f;
-	double driveRight_Kd = 0.0f;
 
     double last_armRightCount = 0.0f;
     double current_armRightCount = 0.0f;
@@ -51,7 +48,6 @@ public class TuleVariables extends TuleNavX {
     double armRightScale_n = 100.0f;
     double current_arm_E = 0.0f;
     double last_arm_E = 0.0f;
-    double arm_scale = 100.0f;
     double arm_P = 0.0f;
     double arm_I = 0.0f;
     double arm_D = 0.0f;

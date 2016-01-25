@@ -6,10 +6,11 @@ import com.qualcomm.robotcore.util.Range;
 
 public class TuleServos extends TuleMotors {
 
-    private Servo servoLid;
-    private Servo servoRightLever;
-    private Servo servoLeftLever;
-    private Servo servoClimber;
+    Servo lid;
+    Servo rightLever;
+    Servo leftLever;
+    Servo rightBallast;
+    Servo leftBallast;
 
     public TuleServos() {
 
@@ -20,103 +21,51 @@ public class TuleServos extends TuleMotors {
         super.init();
 
         try {
-            servoLid = hardwareMap.servo.get("lid");
+            lid = hardwareMap.servo.get("lid");
         } catch (Exception exception) {
             addWarningMessage("Lid Servo");
             DbgLog.msg(exception.getLocalizedMessage());
-            servoLid = null;
+            lid = null;
         }
 
         try {
-            servoRightLever = hardwareMap.servo.get("lever_right");
+            rightLever = hardwareMap.servo.get("right lever");
         } catch (Exception exception) {
             addWarningMessage("Right Lever Servo");
             DbgLog.msg(exception.getLocalizedMessage());
-            servoRightLever = null;
+            rightLever = null;
         }
 
         try {
-            servoLeftLever = hardwareMap.servo.get("lever_left");
+            leftLever = hardwareMap.servo.get("left lever");
         } catch (Exception exception) {
             addWarningMessage("Left Lever Servo");
             DbgLog.msg(exception.getLocalizedMessage());
-            servoLeftLever = null;
+            leftLever = null;
         }
 
         try {
-            servoClimber = hardwareMap.servo.get("climber");
+            rightBallast = hardwareMap.servo.get("right ballast");
         } catch (Exception exception) {
-            addWarningMessage("Climber Dump Servo");
+            addWarningMessage("Right Ballast Servo");
             DbgLog.msg(exception.getLocalizedMessage());
-            servoClimber = null;
+            rightBallast = null;
+        }
+
+        try {
+            leftBallast = hardwareMap.servo.get("left ballast");
+        } catch (Exception exception) {
+            addWarningMessage("Left Ballast Servo");
+            DbgLog.msg(exception.getLocalizedMessage());
+            leftBallast = null;
         }
     }
 
-    double servoLid_Position() {
+    double servoPosition(Servo servo) {
         double position = 0.0f;
-        if (servoLid != null) {
-            position = servoLid.getPosition();
+        if (servo != null) {
+            position = servo.getPosition();
         }
         return position;
-    }
-
-    void setLidPosition(double position) {
-        Range.clip(position, 0.0f, 1.0f);
-        if (servoLid != null) {
-            if (position >= 0.0f && position <= 1.0f) {
-                servoLid.setPosition(position);
-            }
-        }
-    }
-
-    double servoRightLever_position() {
-        double position = 0.0f;
-        if (servoRightLever != null) {
-            position = servoRightLever.getPosition();
-        }
-        return position;
-    }
-
-    void setRightLeverPosition(double position) {
-        Range.clip(position, 0.0f, 1.0f);
-        if (servoRightLever != null) {
-            if (position >= 0.0f && position <= 1.0f) {
-                servoRightLever.setPosition(position);
-            }
-        }
-    }
-
-    double servoLeftLever_position() {
-        double position = 0.0f;
-        if (servoLeftLever != null) {
-            position = servoLeftLever.getPosition();
-        }
-        return position;
-    }
-
-    void setLeftLeverPosition(double position) {
-        Range.clip(position, 0.0f, 1.0f);
-        if (servoLeftLever != null) {
-            if (position >= 0.0f && position <= 1.0f) {
-                servoLeftLever.setPosition(position);
-            }
-        }
-    }
-
-    double servoClimber_Position() {
-        double position = 0.0f;
-        if (servoClimber != null) {
-            position = servoClimber.getPosition();
-        }
-        return position;
-    }
-
-    void setClimberPosition(double position) {
-        Range.clip(position, 0.0f, 1.0f);
-        if (servoClimber != null) {
-            if (position >= 0.0f && position <= 1.0f) {
-                servoClimber.setPosition(position);
-            }
-        }
     }
 }

@@ -7,5 +7,6 @@ public class TuleControlFunctions extends TuleTelemetry {
 
     void controlInit() {
         baseInit();
+        resetAllEncoders();
     }
 }

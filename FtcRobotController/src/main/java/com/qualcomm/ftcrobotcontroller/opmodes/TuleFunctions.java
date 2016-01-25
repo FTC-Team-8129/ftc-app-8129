@@ -9,10 +9,6 @@ public class TuleFunctions extends TuleVariables {
     void baseInit() {
         motorKill();
         resetStartTime();
-        setClimberPosition(0.0f);
-        setLeftLeverPosition(1.0f);
-        setRightLeverPosition(0.0f);
-        setLidPosition(0.0f);
     }
 
     void runAllEncoders() {
@@ -38,69 +34,6 @@ public class TuleFunctions extends TuleVariables {
     }
 
     void setDrivePower(double leftPower, double rightPower) {
-
-        runWithEncoder(drive_right);
-        runWithEncoder(drive_left);
-        last_driveRightCount = current_driveRightCount;
-        current_driveRightCount = motorPosition(drive_right);
-        last_driveLeftCount = current_driveLeftCount;
-        current_driveLeftCount = motorPosition(drive_left);
-        last_driveTime = current_driveTime;
-        current_driveTime = getRuntime();
-
-        double left_Dx = current_driveLeftCount-last_driveLeftCount;
-        double right_Dx = current_driveRightCount-last_driveRightCount;
-        double Dt = current_driveTime-last_driveTime;
-
-        if (Math.abs(leftPower) < 0.2) {
-            leftPower = 0;
-        }
-        if (Math.abs(rightPower) < 0.2) {
-            rightPower = 0;
-        }
-
-        double leftSpeed = left_Dx/Dt;
-        double rightSpeed = right_Dx/Dt;
-        double leftRatio = 0;
-        double rightRatio = 0;
-
-        if (Math.abs(leftPower) > 0) {
-            leftRatio = Math.abs(leftSpeed / leftPower);
-        }
-        if (Math.abs(rightPower) > 0) {
-            rightRatio = Math.abs(rightSpeed / rightPower);
-        }
-
-        if (leftRatio > rightRatio && rightRatio > 0) {
-            last_driveLeft_E = current_driveLeft_E;
-            current_driveLeft_E = leftRatio - rightRatio;
-            driveLeft_Kp = current_driveLeft_E;
-            driveLeft_Ki = driveLeft_Ki + ((current_driveLeft_E + last_driveLeft_E) / 2) * Dt;
-            driveLeft_Kd = (current_driveLeft_E - last_driveLeft_E) / Dt;
-            driveLeftScale = (leftRatio - (driveLeft_Kp + driveLeft_Ki + driveLeft_Kd))/leftRatio;
-            if (driveLeftScale < -1.0f) {
-                driveLeftScale = -1.0f;
-            } else if (driveLeftScale > 1.0f) {
-                driveLeftScale = 1.0f;
-            }
-            leftPower = leftPower * driveLeftScale;
-        }
-
-        if (rightRatio > leftRatio && leftRatio > 0) {
-            last_driveRight_E = current_driveRight_E;
-            current_driveRight_E = rightRatio - leftRatio;
-            driveRight_Kp = current_driveRight_E;
-            driveRight_Ki = driveRight_Ki + ((current_driveRight_E + last_driveRight_E) / 2) * Dt;
-            driveRight_Kd = (current_driveRight_E - last_driveRight_E) / Dt;
-            driveRightScale = (rightRatio - (driveRight_Kp + driveRight_Ki + driveRight_Kd))/rightRatio;
-            if (driveRightScale < -1.0f) {
-                driveRightScale = -1.0f;
-            } else if (driveRightScale > 1.0f) {
-                driveRightScale = 1.0f;
-            }
-            rightPower = rightPower * driveRightScale;
-        }
-
         setMotorPower(drive_left, leftPower);
         setMotorPower(drive_right, rightPower);
     }
@@ -198,6 +131,27 @@ public class TuleFunctions extends TuleVariables {
 
         setMotorPower(arm_left, armLeftPower);
         setMotorPower(arm_right, armRightPower);
+    }
+
+    void setScoopPosition(double position, double power) {
+        runWithEncoder(scoop);
+        position = position * COUNTS_PER_DEGREE_SCOOP;
+        setScoop = true;
+        if (power > 0) {
+            if (motorPosition(scoop) < position) {
+                setMotorPower(scoop, power);
+            } else if (motorPosition(scoop) >= position) {
+                setMotorPower(scoop, 0.0f);
+                setScoop = false;
+            }
+        } else {
+            if (motorPosition(scoop) > position) {
+                setMotorPower(scoop, power);
+            } else if (motorPosition(scoop) <= position) {
+                setMotorPower(scoop, 0.0f);
+                setScoop = false;
+            }
+        }
     }
 
     void motorKill() {
