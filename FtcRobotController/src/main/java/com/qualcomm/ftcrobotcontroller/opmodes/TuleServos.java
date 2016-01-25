@@ -68,4 +68,10 @@ public class TuleServos extends TuleMotors {
         }
         return position;
     }
+
+    void setServo(Servo servo, double position) {
+        if (servo != null) {
+            servo.setPosition(position);
+        }
+    }
 }

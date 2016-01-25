@@ -56,7 +56,7 @@ public class TuleController extends TuleControlFunctions {
                 if (!setScoop) {
                     scoop_timer = 1.0f;
                 }
-                if ((setScoop && motorPower(scoop) > 0) || motorPosition(scoop) < 10f) {
+                if (scoop_position == 0 || motorPosition(scoop) > 10f) {
                     setScoopPosition(220f, 0.8f);
                 } else {
                     setScoopPosition(0f, -0.8f);
@@ -93,15 +93,18 @@ public class TuleController extends TuleControlFunctions {
         if (gamepad2.right_stick_button) {
             if (lid_timer == 0.0f) {
                 lid_timer = 1.0f;
-                if (servoLid_Position() > 0.99f) {
-                    setLidPosition(0.0f);
+                if (servoPosition(lid) > 0.99f) {
+                    setServo(lid, 0.0f);
                 } else {
-                    setLidPosition(1.0f);
+                    setServo(lid, 1.0f);
                 }
             }
         }
 
         if (navX_value("pitch") > 30) {
+            setBallastPositions("up", 3.0f);
+        } else {
+            setBallastPositions("down", 3.0f);
         }
 
         updateTelemetry();

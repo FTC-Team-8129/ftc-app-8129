@@ -22,6 +22,8 @@ public class TuleVariables extends TuleNavX {
             (COUNTS_PER_REVOLUTION_N40*GEAR_RATIO_SCOOP)/360;
 
     boolean setScoop = false;
+    boolean setBallasts = false;
+    int scoop_position = 0;
 
 	double last_driveRightCount = 0.0f;
     double current_driveRightCount = 0.0f;
@@ -73,6 +75,11 @@ public class TuleVariables extends TuleNavX {
     double arm_right_v2 = 0.0f;
     double arm_right_v3 = 0.0f;
     double arm_right_v4 = 0.0f;
+
+    double ballast_startTime = 0.0f;
+    double ballast_goalTime = 0.0f;
+    double ballast_currentTime = 0.0f;
+    int ballastPosition = 0;
 
 	int state = 0;
 }

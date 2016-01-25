@@ -140,16 +140,54 @@ public class TuleFunctions extends TuleVariables {
         if (power > 0) {
             if (motorPosition(scoop) < position) {
                 setMotorPower(scoop, power);
-            } else if (motorPosition(scoop) >= position) {
+            } else {
                 setMotorPower(scoop, 0.0f);
                 setScoop = false;
+                scoop_position = 1;
             }
         } else {
             if (motorPosition(scoop) > position) {
                 setMotorPower(scoop, power);
-            } else if (motorPosition(scoop) <= position) {
+            } else {
                 setMotorPower(scoop, 0.0f);
                 setScoop = false;
+                scoop_position = 0;
+            }
+        }
+    }
+
+    void setBallastPositions(String direction, double time) {
+        ballast_currentTime = getRuntime();
+
+        if (direction.equals("up") && ballastPosition == 0) {
+            if (!setBallasts) {
+                ballast_startTime = ballast_currentTime;
+                setBallasts = true;
+            }
+            ballast_goalTime = ballast_startTime + time;
+            setServo(leftBallast, 1.0f);
+            setServo(rightBallast, 1.0f);
+        } else if (direction.equals("down") && ballastPosition == 1) {
+            if (!setBallasts) {
+                ballast_startTime = ballast_currentTime;
+                setBallasts = true;
+            }
+            ballast_goalTime = ballast_startTime + time;
+            setServo(leftBallast, -1.0f);
+            setServo(rightBallast, -1.0f);
+        } else {
+            setServo(leftBallast, 0.0f);
+            setServo(rightBallast, 0.0f);
+        }
+
+        if (ballast_currentTime >= ballast_goalTime && setBallasts) {
+            setServo(leftBallast, 0.0f);
+            setServo(rightBallast, 0.0f);
+            setBallasts = false;
+            if (ballastPosition == 0) {
+                ballastPosition = 1;
+            } else {
+                ballastPosition = 0;
             }
         }
     }
