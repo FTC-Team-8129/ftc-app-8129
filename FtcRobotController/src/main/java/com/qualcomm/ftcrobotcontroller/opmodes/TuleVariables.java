@@ -29,37 +29,39 @@ public class TuleVariables extends TuleNavX {
     double current_driveTime = 0.0f;
     double driveLeftScale = 100.0f;
     double driveRightScale = 100.0f;
-    double driveLeftPower = 0.0f;
-    double driveRightPower = 0.0f;
-    double driveLeftScale_p = 100.0f;
-    double driveRightScale_p = 100.0f;
-    double driveLeftScale_n = 100.0f;
-    double driveRightScale_n = 100.0f;
     double current_drive_E = 0.0f;
     double last_drive_E = 0.0f;
-    double drive_P = 0.0f;
-    double drive_I = 0.0f;
-    double drive_D = 0.0f;
-    double drive_PID = 0.0f;
     double drive_dt = 0.0f;
+
     double p_drive_left_dx = 0.0f;
     double p_drive_left_v = 0.0f;
     double p_drive_left_p = 0.0f;
     double p_drive_left_ratio = 0.0f;
+    double p_drive_left_scale = 100.0f;
     double n_drive_left_dx = 0.0f;
     double n_drive_left_v = 0.0f;
     double n_drive_left_p = 0.0f;
     double n_drive_left_ratio = 0.0f;
+    double n_drive_left_scale = 100.0f;
+
     double p_drive_right_dx = 0.0f;
     double p_drive_right_v = 0.0f;
     double p_drive_right_p = 0.0f;
     double p_drive_right_ratio = 0.0f;
+    double p_drive_right_scale = 100.0f;
     double n_drive_right_dx = 0.0f;
     double n_drive_right_v = 0.0f;
     double n_drive_right_p = 0.0f;
     double n_drive_right_ratio = 0.0f;
+    double n_drive_right_scale = 100.0f;
+
+    double drive_left_v = 0.0f;
+    double drive_right_v = 0.0f;
     double drive_left_ratio = 0.0f;
     double drive_right_ratio = 0.0f;
+    double drive_left_scale = 0.0f;
+    double drive_right_scale = 0.0f;
+    double drive_scale = 5f;
 
     double last_armRightCount = 0.0f;
     double current_armRightCount = 0.0f;

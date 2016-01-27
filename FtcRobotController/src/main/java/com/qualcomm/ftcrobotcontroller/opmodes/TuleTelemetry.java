@@ -24,14 +24,12 @@ public class TuleTelemetry extends TuleFunctions {
         telemetry.addData("1.0",
                 "Left Drive: "
                         + (int)(motorPower(drive_left)*100) + "% Power, "
-                        + (int)((current_driveLeftCount - last_driveLeftCount)
-                        /(current_driveTime - last_driveTime)) + " Counts/s, "
+                        + (int)(drive_left_v) + " Counts/s, "
                         + Math.round(driveLeftScale*100)/100);
         telemetry.addData("1.1",
                 "Right Drive: "
                         + (int)(motorPower(drive_right)*100) + "% Power, "
-                        + (int)((current_driveRightCount - last_driveRightCount)
-                        /(current_driveTime - last_driveTime)) + " Counts/s, "
+                        + (int)(drive_right_v) + " Counts/s, "
                         + Math.round(driveRightScale*100)/100);
         telemetry.addData("1.2",
                 "Left Arm Motor: "
@@ -45,6 +43,7 @@ public class TuleTelemetry extends TuleFunctions {
                         + current_armRightCount + "Counts, "
                         + (int)(arm_right_v) + " Counts/s, "
                         + Math.round(armRightScale*100)/100);
-        telemetry.addData("4.0","Max Error: " + (int)(max_error) + " Counts");
+
+        telemetry.addData("4.0","Max Arm Error: " + (int)(max_error) + " Counts");
     }
 }
