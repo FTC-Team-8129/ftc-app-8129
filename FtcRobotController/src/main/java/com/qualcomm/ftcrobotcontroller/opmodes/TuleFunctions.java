@@ -34,6 +34,59 @@ public class TuleFunctions extends TuleVariables {
     }
 
     void setDrivePower(double leftPower, double rightPower) {
+
+        if (Math.abs(leftPower) < 0.1f) {
+            leftPower = 0.0f;
+        }
+        if (Math.abs(rightPower) < 0.1f) {
+            rightPower = 0.0f;
+        }
+
+        runWithEncoder(drive_right);
+        runWithEncoder(drive_left);
+
+        last_driveTime = current_driveTime;
+        current_driveTime = getRuntime();
+        last_driveRightCount = current_driveRightCount;
+        current_driveRightCount = motorPosition(drive_right);
+        last_driveLeftCount = current_driveLeftCount;
+        current_driveLeftCount = motorPosition(drive_left);
+
+        drive_dt = current_driveTime - last_driveTime;
+        
+        if (leftPower > 0) {
+            p_drive_left_dx = current_driveLeftCount - last_driveLeftCount;
+            p_drive_left_v = 0.9f * p_drive_left_v + 0.1f * p_drive_left_dx / drive_dt;
+            p_drive_left_p = 0.9f * p_drive_left_p + 0.1f * leftPower;
+            p_drive_left_ratio = p_drive_left_v / p_drive_left_p;
+            drive_left_ratio = Math.abs(p_drive_left_ratio);
+        } else if (leftPower < 0) {
+            n_drive_left_dx = current_driveLeftCount - last_driveLeftCount;
+            n_drive_left_v = 0.9f * n_drive_left_v + 0.1f * n_drive_left_dx / drive_dt;
+            n_drive_left_p = 0.9f * n_drive_left_p + 0.1f * leftPower;
+            n_drive_left_ratio = n_drive_left_v / n_drive_left_p;
+            drive_left_ratio = Math.abs(n_drive_left_ratio);
+        }
+
+        if (rightPower > 0) {
+            p_drive_right_dx = current_driveRightCount - last_driveRightCount;
+            p_drive_right_v = 0.9f * p_drive_right_v + 0.1f * p_drive_right_dx / drive_dt;
+            p_drive_right_p = 0.9f * p_drive_right_p + 0.1f * rightPower;
+            p_drive_right_ratio = p_drive_right_v / p_drive_right_p;
+            drive_right_ratio = Math.abs(p_drive_right_ratio);
+        } else if (rightPower < 0) {
+            n_drive_right_dx = current_driveRightCount - last_driveRightCount;
+            n_drive_right_v = 0.9f * n_drive_right_v + 0.1f * n_drive_right_dx / drive_dt;
+            n_drive_right_p = 0.9f * n_drive_right_p + 0.1f * rightPower;
+            n_drive_right_ratio = n_drive_right_v / n_drive_right_p;
+            drive_right_ratio = Math.abs(n_drive_right_ratio);
+        }
+
+        last_drive_E = current_drive_E;
+        current_drive_E = drive_left_ratio - drive_right_ratio;
+
+        //  TODO Create control system for drive motor speeds
+
         setMotorPower(drive_left, leftPower);
         setMotorPower(drive_right, rightPower);
     }
@@ -191,6 +244,8 @@ public class TuleFunctions extends TuleVariables {
             }
         }
     }
+
+    //  TODO Add functions to automatically control slide, dump and pivot motors
 
     void motorKill() {
         setMotorPower(drive_left, 0.0f);

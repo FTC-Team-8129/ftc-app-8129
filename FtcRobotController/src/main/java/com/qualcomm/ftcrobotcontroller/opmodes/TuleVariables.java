@@ -11,7 +11,7 @@ public class TuleVariables extends TuleNavX {
 
     final double GEAR_RATIO_DRIVE = 1;
     final double WHEEL_DIAMETER = 3;
-    final double TURN_DIAMETER = 18;
+    final double TURN_DIAMETER = 15;
     final double COUNTS_PER_INCH_DRIVE =
             COUNTS_PER_REVOLUTION_N40*GEAR_RATIO_DRIVE/(WHEEL_DIAMETER*Math.PI);
     final double COUNTS_PER_DEGREE_DRIVE =
@@ -21,18 +21,45 @@ public class TuleVariables extends TuleNavX {
     final double COUNTS_PER_DEGREE_SCOOP =
             (COUNTS_PER_REVOLUTION_N40*GEAR_RATIO_SCOOP)/360;
 
-    boolean setScoop = false;
-    boolean setBallasts = false;
-    int scoop_position = 0;
-
 	double last_driveRightCount = 0.0f;
     double current_driveRightCount = 0.0f;
     double last_driveLeftCount = 0.0f;
     double current_driveLeftCount = 0.0f;
     double last_driveTime = 0.0f;
     double current_driveTime = 0.0f;
-    double driveLeftScale = 1.0f;
-    double driveRightScale = 1.0f;
+    double driveLeftScale = 100.0f;
+    double driveRightScale = 100.0f;
+    double driveLeftPower = 0.0f;
+    double driveRightPower = 0.0f;
+    double driveLeftScale_p = 100.0f;
+    double driveRightScale_p = 100.0f;
+    double driveLeftScale_n = 100.0f;
+    double driveRightScale_n = 100.0f;
+    double current_drive_E = 0.0f;
+    double last_drive_E = 0.0f;
+    double drive_P = 0.0f;
+    double drive_I = 0.0f;
+    double drive_D = 0.0f;
+    double drive_PID = 0.0f;
+    double drive_dt = 0.0f;
+    double p_drive_left_dx = 0.0f;
+    double p_drive_left_v = 0.0f;
+    double p_drive_left_p = 0.0f;
+    double p_drive_left_ratio = 0.0f;
+    double n_drive_left_dx = 0.0f;
+    double n_drive_left_v = 0.0f;
+    double n_drive_left_p = 0.0f;
+    double n_drive_left_ratio = 0.0f;
+    double p_drive_right_dx = 0.0f;
+    double p_drive_right_v = 0.0f;
+    double p_drive_right_p = 0.0f;
+    double p_drive_right_ratio = 0.0f;
+    double n_drive_right_dx = 0.0f;
+    double n_drive_right_v = 0.0f;
+    double n_drive_right_p = 0.0f;
+    double n_drive_right_ratio = 0.0f;
+    double drive_left_ratio = 0.0f;
+    double drive_right_ratio = 0.0f;
 
     double last_armRightCount = 0.0f;
     double current_armRightCount = 0.0f;
@@ -40,8 +67,8 @@ public class TuleVariables extends TuleNavX {
     double current_armLeftCount = 0.0f;
     double last_armTime = 0.0f;
     double current_armTime = 0.0f;
-    double armLeftPower;
-    double armRightPower;
+    double armLeftPower = 0.0f;
+    double armRightPower = 0.0f;
     double armLeftScale = 100.0f;
     double armRightScale = 100.0f;
     double armLeftScale_p = 100.0f;
@@ -76,6 +103,10 @@ public class TuleVariables extends TuleNavX {
     double arm_right_v3 = 0.0f;
     double arm_right_v4 = 0.0f;
 
+    boolean setScoop = false;
+    int scoop_position = 0;
+
+    boolean setBallasts = false;
     double ballast_startTime = 0.0f;
     double ballast_goalTime = 0.0f;
     double ballast_currentTime = 0.0f;

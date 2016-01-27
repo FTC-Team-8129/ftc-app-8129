@@ -12,7 +12,7 @@ public class TuleAutonFunctions extends TuleTelemetry {
 
     void waitForReset() {
         if (driveEncodersReset()) {
-            state++;
+            nextState();
         }
     }
 
@@ -39,6 +39,8 @@ public class TuleAutonFunctions extends TuleTelemetry {
     }
 
     void movement(String movement, double distance, double power) {
+        runWithEncoder(drive_left);
+        runWithEncoder(drive_right);
         if (movement.equals("forward")) {
             distance = distance*COUNTS_PER_INCH_DRIVE;
             setDrivePower(power,power);
