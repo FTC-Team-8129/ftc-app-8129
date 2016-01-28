@@ -21,6 +21,8 @@ public class TuleVariables extends TuleNavX {
     final double COUNTS_PER_DEGREE_SCOOP =
             (COUNTS_PER_REVOLUTION_N40*GEAR_RATIO_SCOOP)/360;
 
+    boolean controller = false;
+
 	double last_driveRightCount = 0.0f;
     double current_driveRightCount = 0.0f;
     double last_driveLeftCount = 0.0f;

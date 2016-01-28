@@ -35,10 +35,10 @@ public class TuleFunctions extends TuleVariables {
 
     void setDrivePower(double leftPower, double rightPower) {
 
-        if (Math.abs(leftPower) < 0.1f) {
+        if (Math.abs(leftPower) < 0.2f) {
             leftPower = 0.0f;
         }
-        if (Math.abs(rightPower) < 0.1f) {
+        if (Math.abs(rightPower) < 0.2f) {
             rightPower = 0.0f;
         }
 
@@ -53,7 +53,7 @@ public class TuleFunctions extends TuleVariables {
         current_driveLeftCount = motorPosition(drive_left);
 
         drive_dt = current_driveTime - last_driveTime;
-        
+
         if (leftPower > 0) {
             p_drive_left_dx = current_driveLeftCount - last_driveLeftCount;
             p_drive_left_v = 0.9f * p_drive_left_v + 0.1f * p_drive_left_dx / drive_dt;
@@ -86,59 +86,63 @@ public class TuleFunctions extends TuleVariables {
             drive_right_ratio = Math.abs(n_drive_right_ratio);
         }
 
-        last_drive_E = current_drive_E;
-        current_drive_E = drive_left_ratio - drive_right_ratio;
+        if (!controller) {
 
-        if (current_drive_E > 0.0f) {
-            if (leftPower > 0) {
-                p_drive_left_scale = p_drive_left_scale - drive_scale;
-                drive_left_scale = p_drive_left_scale;
-            } else if (leftPower < 0.0f) {
-                n_drive_left_scale = n_drive_left_scale - drive_scale;
-                drive_left_scale = n_drive_left_scale;
+            last_drive_E = current_drive_E;
+            current_drive_E = drive_left_ratio - drive_right_ratio;
+
+            if (current_drive_E > 0.0f) {
+                if (leftPower > 0) {
+                    p_drive_left_scale = p_drive_left_scale - drive_scale;
+                    drive_left_scale = p_drive_left_scale;
+                } else if (leftPower < 0.0f) {
+                    n_drive_left_scale = n_drive_left_scale - drive_scale;
+                    drive_left_scale = n_drive_left_scale;
+                }
+                if (rightPower > 0.0f) {
+                    p_drive_right_scale = p_drive_right_scale + drive_scale;
+                    drive_right_scale = p_drive_right_scale;
+                } else if (rightPower < 0.0f) {
+                    n_drive_right_scale = n_drive_right_scale + drive_scale;
+                    drive_right_scale = n_drive_right_scale;
+                }
             }
-            if (rightPower > 0.0f) {
-                p_drive_right_scale = p_drive_right_scale + drive_scale;
-                drive_right_scale = p_drive_right_scale;
-            } else if (rightPower < 0.0f) {
-                n_drive_right_scale = n_drive_right_scale + drive_scale;
-                drive_right_scale = n_drive_right_scale;
+
+            if (current_drive_E < 0.0f) {
+                if (leftPower > 0) {
+                    p_drive_left_scale = p_drive_left_scale + drive_scale;
+                    drive_left_scale = p_drive_left_scale;
+                } else if (leftPower < 0.0f) {
+                    n_drive_left_scale = n_drive_left_scale + drive_scale;
+                    drive_left_scale = n_drive_left_scale;
+                }
+                if (rightPower > 0.0f) {
+                    p_drive_right_scale = p_drive_right_scale - drive_scale;
+                    drive_right_scale = p_drive_right_scale;
+                } else if (rightPower < 0.0f) {
+                    n_drive_right_scale = n_drive_right_scale - drive_scale;
+                    drive_right_scale = n_drive_right_scale;
+                }
             }
-        }
 
-        if (current_drive_E < 0.0f) {
-            if (leftPower > 0) {
-                p_drive_left_scale = p_drive_left_scale + drive_scale;
-                drive_left_scale = p_drive_left_scale;
-            } else if (leftPower < 0.0f) {
-                n_drive_left_scale = n_drive_left_scale + drive_scale;
-                drive_left_scale = n_drive_left_scale;
+            if (drive_right_scale > drive_left_scale) {
+                leftPower = leftPower * drive_left_scale / drive_right_scale;
+            } else if (drive_right_scale < drive_left_scale) {
+                rightPower = rightPower * drive_right_scale / drive_left_scale;
             }
-            if (rightPower > 0.0f) {
-                p_drive_right_scale = p_drive_right_scale - drive_scale;
-                drive_right_scale = p_drive_right_scale;
-            } else if (rightPower < 0.0f) {
-                n_drive_right_scale = n_drive_right_scale - drive_scale;
-                drive_right_scale = n_drive_right_scale;
+
+            if (leftPower >= 1.0f) {
+                leftPower = 1.0f;
+            } else if (leftPower <= -1.0f) {
+                leftPower = -1.0f;
             }
-        }
 
-        if (drive_right_scale > drive_left_scale) {
-            leftPower = leftPower * drive_left_scale / drive_right_scale;
-        } else if (drive_right_scale < drive_left_scale) {
-            rightPower = rightPower * drive_right_scale / drive_left_scale;
-        }
+            if (rightPower >= 1.0f) {
+                rightPower = 1.0f;
+            } else if (rightPower <= -1.0f) {
+                rightPower = -1.0f;
+            }
 
-        if (leftPower >= 1.0f) {
-            leftPower = 1.0f;
-        } else if (leftPower <= 1.0f) {
-            leftPower = -1.0f;
-        }
-
-        if (rightPower >= 1.0f) {
-            rightPower = 1.0f;
-        } else if (rightPower <= 1.0f) {
-            rightPower = -1.0f;
         }
 
         setMotorPower(drive_left, leftPower);
@@ -311,6 +315,8 @@ public class TuleFunctions extends TuleVariables {
             }
         }
     }
+
+
 
     //  TODO Add functions to automatically control dump and pivot motors
 

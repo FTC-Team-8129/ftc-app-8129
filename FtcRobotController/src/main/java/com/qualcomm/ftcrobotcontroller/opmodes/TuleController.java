@@ -18,6 +18,8 @@ public class TuleController extends TuleControlFunctions {
     @Override
     public void loop() {
 
+        controller = true;
+
         lid_timer = lid_timer - 0.05f;
         if (lid_timer < 0.0f) {
             lid_timer = 0.0f;
