@@ -68,6 +68,7 @@ public class TuleMotors extends TuleSetup {
 
         try {
             pivot = hardwareMap.dcMotor.get("pivot");
+            pivot.setDirection(DcMotor.Direction.REVERSE);
         } catch (Exception exception) {
             addWarningMessage("Pivot Motor");
             DbgLog.msg(exception.getLocalizedMessage());
@@ -84,6 +85,7 @@ public class TuleMotors extends TuleSetup {
 
         try {
             scoop = hardwareMap.dcMotor.get("scoop");
+            scoop.setDirection(DcMotor.Direction.REVERSE);
         } catch (Exception exception) {
             addWarningMessage("Scoop Motor");
             DbgLog.msg(exception.getLocalizedMessage());

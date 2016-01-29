@@ -308,15 +308,15 @@ public class TuleFunctions extends TuleVariables {
         if (power > 0.0f) {
             if (motorPosition(slide) >= position) {
                 setMotorPower(slide, 0.0f);
+                setSlide = false;
             }
         } else if (power < 0.0f) {
             if (motorPosition(slide) <= position) {
                 setMotorPower(slide, 0.0f);
+                setSlide = false;
             }
         }
     }
-
-
 
     //  TODO Add functions to automatically control dump and pivot motors
 

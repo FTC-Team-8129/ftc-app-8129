@@ -116,5 +116,7 @@ public class TuleVariables extends TuleNavX {
     double ballast_currentTime = 0.0f;
     int ballastPosition = 0;
 
+    boolean setSlide = false;
+
 	int state = 0;
 }

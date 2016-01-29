@@ -53,13 +53,18 @@ public class TuleController extends TuleControlFunctions {
         if (Math.abs(gamepad2.left_stick_y) > 0.2) {
             setScoop = false;
             setMotorPower(scoop, -gamepad2.left_stick_y);
+            if (motorPosition(scoop) > 90 * COUNTS_PER_DEGREE_SCOOP) {
+                scoop_position = 1;
+            } else if (motorPosition(scoop) < 90 * COUNTS_PER_DEGREE_SCOOP) {
+                scoop_position = 0;
+            }
         } else if ((gamepad2.left_stick_button && scoop_timer == 0.0f) || setScoop) {
             if (scoop_timer == 0.0f || setScoop) {
                 if (!setScoop) {
                     scoop_timer = 1.0f;
                 }
-                if (scoop_position == 0 || motorPosition(scoop) > 10f) {
-                    setScoopPosition(220f, 0.8f);
+                if (scoop_position == 0) {
+                    setScoopPosition(200f, 0.8f);
                 } else {
                     setScoopPosition(0f, -0.8f);
                 }
@@ -85,9 +90,9 @@ public class TuleController extends TuleControlFunctions {
         }
 
         if (gamepad2.right_bumper) {
-            setMotorPower(slide, 0.5f);
-        } else if (gamepad2.left_bumper) {
             setMotorPower(slide, -0.5f);
+        } else if (gamepad2.left_bumper) {
+            setMotorPower(slide, 0.5f);
         } else {
             setMotorPower(slide, 0.0f);
         }
@@ -103,10 +108,10 @@ public class TuleController extends TuleControlFunctions {
             }
         }
 
-        if (navX_value("pitch") > 30) {
-            setBallastPositions("up", 3.0f);
-        } else {
-            setBallastPositions("down", 3.0f);
+        if (gamepad2.dpad_up) {
+            setBallastPositions("up", 1.0f);
+        } else if (gamepad2.dpad_down) {
+            setBallastPositions("down", 1.0f);
         }
 
         updateTelemetry();
