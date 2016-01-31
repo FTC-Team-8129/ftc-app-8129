@@ -68,7 +68,6 @@ public class TuleMotors extends TuleSetup {
 
         try {
             pivot = hardwareMap.dcMotor.get("pivot");
-            pivot.setDirection(DcMotor.Direction.REVERSE);
         } catch (Exception exception) {
             addWarningMessage("Pivot Motor");
             DbgLog.msg(exception.getLocalizedMessage());
@@ -124,6 +123,12 @@ public class TuleMotors extends TuleSetup {
     void runWithEncoder(DcMotor motor) {
         if (motor != null) {
             motor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        }
+    }
+
+    void runWithoutEncoder(DcMotor motor) {
+        if (motor != null) {
+            motor.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         }
     }
 }

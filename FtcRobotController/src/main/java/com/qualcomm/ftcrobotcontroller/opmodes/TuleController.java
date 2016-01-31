@@ -2,10 +2,6 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 public class TuleController extends TuleControlFunctions {
 
-    boolean reverseControl = false;
-    double lid_timer = 0.0f;
-    double scoop_timer = 0.0f;
-
     public TuleController() {
 
     }
@@ -50,8 +46,9 @@ public class TuleController extends TuleControlFunctions {
             setArmPower(0.0f);
         }
 
-        if (Math.abs(gamepad2.left_stick_y) > 0.2) {
+        if (Math.abs(gamepad2.left_stick_y) > 0.1) {
             setScoop = false;
+            runWithEncoder(scoop);
             setMotorPower(scoop, -gamepad2.left_stick_y);
             if (motorPosition(scoop) > 90 * COUNTS_PER_DEGREE_SCOOP) {
                 scoop_position = 1;
@@ -61,17 +58,19 @@ public class TuleController extends TuleControlFunctions {
         } else if ((gamepad2.left_stick_button && scoop_timer == 0.0f) || setScoop) {
             if (scoop_timer == 0.0f || setScoop) {
                 if (!setScoop) {
-                    scoop_timer = 1.0f;
+                    scoop_timer = 0.5f;
                 }
                 if (scoop_position == 0) {
-                    setScoopPosition(200f, 0.8f);
+                    setScoopPosition(180f, 0.5f);
                 } else {
-                    setScoopPosition(0f, -0.8f);
+                    setScoopPosition(20f, -0.5f);
                 }
             }
         } else {
             setMotorPower(scoop, 0.0f);
         }
+
+        runWithoutEncoder(pivot);
 
         if (gamepad2.dpad_up) {
             setMotorPower(pivot, 0.8f);
@@ -81,13 +80,17 @@ public class TuleController extends TuleControlFunctions {
             setMotorPower(pivot, 0.0f);
         }
 
-        if (Math.abs(gamepad2.right_trigger) > 0.05) {
-            setMotorPower(dump, -gamepad2.right_trigger);
-        } else if (Math.abs(gamepad2.left_trigger) > 0.05) {
-            setMotorPower(dump, gamepad2.left_trigger);
+        runWithoutEncoder(dump);
+
+        if (gamepad2.x) {
+            setMotorPower(dump, 0.5f);
+        } else if (gamepad2.b) {
+            setMotorPower(dump, -0.5f);
         } else {
             setMotorPower(dump, 0.0f);
         }
+
+        runWithoutEncoder(slide);
 
         if (gamepad2.right_bumper) {
             setMotorPower(slide, -0.5f);
@@ -95,23 +98,6 @@ public class TuleController extends TuleControlFunctions {
             setMotorPower(slide, 0.5f);
         } else {
             setMotorPower(slide, 0.0f);
-        }
-
-        if (gamepad2.right_stick_button) {
-            if (lid_timer == 0.0f) {
-                lid_timer = 1.0f;
-                if (servoPosition(lid) > 0.99f) {
-                    setServo(lid, 0.0f);
-                } else {
-                    setServo(lid, 1.0f);
-                }
-            }
-        }
-
-        if (gamepad2.dpad_up) {
-            setBallastPositions("up", 1.0f);
-        } else if (gamepad2.dpad_down) {
-            setBallastPositions("down", 1.0f);
         }
 
         updateTelemetry();

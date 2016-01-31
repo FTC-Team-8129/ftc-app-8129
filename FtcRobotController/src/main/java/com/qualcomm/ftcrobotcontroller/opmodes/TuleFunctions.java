@@ -45,83 +45,83 @@ public class TuleFunctions extends TuleVariables {
         runWithEncoder(drive_right);
         runWithEncoder(drive_left);
 
-        last_driveTime = current_driveTime;
-        current_driveTime = getRuntime();
-        last_driveRightCount = current_driveRightCount;
-        current_driveRightCount = motorPosition(drive_right);
-        last_driveLeftCount = current_driveLeftCount;
-        current_driveLeftCount = motorPosition(drive_left);
+        drive_time_last = drive_time_current;
+        drive_time_current = getRuntime();
+        drive_right_count_last = drive_right_count_current;
+        drive_right_count_current = motorPosition(drive_right);
+        drive_left_count_last = drive_right_count_current;
+        drive_right_count_current = motorPosition(drive_left);
 
-        drive_dt = current_driveTime - last_driveTime;
+        drive_dt = drive_time_current - drive_time_last;
 
         if (leftPower > 0) {
-            p_drive_left_dx = current_driveLeftCount - last_driveLeftCount;
-            p_drive_left_v = 0.9f * p_drive_left_v + 0.1f * p_drive_left_dx / drive_dt;
-            p_drive_left_p = 0.9f * p_drive_left_p + 0.1f * leftPower;
-            p_drive_left_ratio = p_drive_left_v / p_drive_left_p;
-            drive_left_v = Math.abs(p_drive_left_v);
-            drive_left_ratio = Math.abs(p_drive_left_ratio);
+            drive_left_dx_p = drive_left_count_current - drive_left_count_last;
+            drive_left_v_p = 0.9f * drive_left_v_p + 0.1f * drive_left_dx_p / drive_dt;
+            drive_left_power_p = 0.9f * drive_left_power_p + 0.1f * leftPower;
+            drive_left_ratio_p = drive_left_v_p / drive_left_power_p;
+            drive_left_v = Math.abs(drive_left_v_p);
+            drive_left_ratio = Math.abs(drive_left_ratio_p);
         } else if (leftPower < 0) {
-            n_drive_left_dx = current_driveLeftCount - last_driveLeftCount;
-            n_drive_left_v = 0.9f * n_drive_left_v + 0.1f * n_drive_left_dx / drive_dt;
-            n_drive_left_p = 0.9f * n_drive_left_p + 0.1f * leftPower;
-            n_drive_left_ratio = n_drive_left_v / n_drive_left_p;
-            drive_left_v = Math.abs(n_drive_left_v);
-            drive_left_ratio = Math.abs(n_drive_left_ratio);
+            drive_left_dx_n = drive_left_count_current - drive_left_count_last;
+            drive_left_v_n = 0.9f * drive_left_v_n + 0.1f * drive_left_dx_n / drive_dt;
+            drive_left_power_n = 0.9f * drive_left_power_n + 0.1f * leftPower;
+            drive_left_ratio_n = drive_left_v_n / drive_left_power_n;
+            drive_left_v = Math.abs(drive_left_v_n);
+            drive_left_ratio = Math.abs(drive_left_ratio_n);
         }
 
         if (rightPower > 0) {
-            p_drive_right_dx = current_driveRightCount - last_driveRightCount;
-            p_drive_right_v = 0.9f * p_drive_right_v + 0.1f * p_drive_right_dx / drive_dt;
-            p_drive_right_p = 0.9f * p_drive_right_p + 0.1f * rightPower;
-            p_drive_right_ratio = p_drive_right_v / p_drive_right_p;
-            drive_right_v = Math.abs(p_drive_right_v);
-            drive_right_ratio = Math.abs(p_drive_right_ratio);
+            drive_right_dx_p = drive_right_count_current - drive_right_count_last;
+            drive_right_v_p = 0.9f * drive_right_v_p + 0.1f * drive_right_dx_p / drive_dt;
+            drive_right_power_p = 0.9f * drive_right_power_p + 0.1f * rightPower;
+            drive_right_ratio_p = drive_right_v_p / drive_right_power_p;
+            drive_right_v = Math.abs(drive_right_v_p);
+            drive_right_ratio = Math.abs(drive_right_ratio_p);
         } else if (rightPower < 0) {
-            n_drive_right_dx = current_driveRightCount - last_driveRightCount;
-            n_drive_right_v = 0.9f * n_drive_right_v + 0.1f * n_drive_right_dx / drive_dt;
-            n_drive_right_p = 0.9f * n_drive_right_p + 0.1f * rightPower;
-            n_drive_right_ratio = n_drive_right_v / n_drive_right_p;
-            drive_right_v = Math.abs(n_drive_right_v);
-            drive_right_ratio = Math.abs(n_drive_right_ratio);
+            drive_right_dx_n = drive_right_count_current - drive_right_count_last;
+            drive_right_v_n = 0.9f * drive_right_v_n + 0.1f * drive_right_dx_n / drive_dt;
+            drive_right_power_n = 0.9f * drive_right_power_n + 0.1f * rightPower;
+            drive_right_ratio_n = drive_right_v_n / drive_right_power_n;
+            drive_right_v = Math.abs(drive_right_v_n);
+            drive_right_ratio = Math.abs(drive_right_ratio_n);
         }
 
         if (!controller) {
 
-            last_drive_E = current_drive_E;
-            current_drive_E = drive_left_ratio - drive_right_ratio;
+            drive_error_last = drive_error_current;
+            drive_error_current = drive_left_ratio - drive_right_ratio;
 
-            if (current_drive_E > 0.0f) {
+            if (drive_error_current > 0.0f) {
                 if (leftPower > 0) {
-                    p_drive_left_scale = p_drive_left_scale - drive_scale;
-                    drive_left_scale = p_drive_left_scale;
+                    drive_left_scale_p = drive_left_scale_p - drive_scale;
+                    drive_left_scale = drive_left_scale_p;
                 } else if (leftPower < 0.0f) {
-                    n_drive_left_scale = n_drive_left_scale - drive_scale;
-                    drive_left_scale = n_drive_left_scale;
+                    drive_left_scale_n = drive_left_scale_n - drive_scale;
+                    drive_left_scale = drive_left_scale_n;
                 }
                 if (rightPower > 0.0f) {
-                    p_drive_right_scale = p_drive_right_scale + drive_scale;
-                    drive_right_scale = p_drive_right_scale;
+                    drive_right_scale_p = drive_right_scale_p + drive_scale;
+                    drive_right_scale = drive_right_scale_p;
                 } else if (rightPower < 0.0f) {
-                    n_drive_right_scale = n_drive_right_scale + drive_scale;
-                    drive_right_scale = n_drive_right_scale;
+                    drive_right_scale_n = drive_right_scale_n + drive_scale;
+                    drive_right_scale = drive_right_scale_n;
                 }
             }
 
-            if (current_drive_E < 0.0f) {
+            if (drive_error_current < 0.0f) {
                 if (leftPower > 0) {
-                    p_drive_left_scale = p_drive_left_scale + drive_scale;
-                    drive_left_scale = p_drive_left_scale;
+                    drive_left_scale_p = drive_left_scale_p + drive_scale;
+                    drive_left_scale = drive_left_scale_p;
                 } else if (leftPower < 0.0f) {
-                    n_drive_left_scale = n_drive_left_scale + drive_scale;
-                    drive_left_scale = n_drive_left_scale;
+                    drive_left_scale_n = drive_left_scale_n + drive_scale;
+                    drive_left_scale = drive_left_scale_n;
                 }
                 if (rightPower > 0.0f) {
-                    p_drive_right_scale = p_drive_right_scale - drive_scale;
-                    drive_right_scale = p_drive_right_scale;
+                    drive_right_scale_p = drive_right_scale_p - drive_scale;
+                    drive_right_scale = drive_right_scale_p;
                 } else if (rightPower < 0.0f) {
-                    n_drive_right_scale = n_drive_right_scale - drive_scale;
-                    drive_right_scale = n_drive_right_scale;
+                    drive_right_scale_n = drive_right_scale_n - drive_scale;
+                    drive_right_scale = drive_right_scale_n;
                 }
             }
 
@@ -142,7 +142,6 @@ public class TuleFunctions extends TuleVariables {
             } else if (rightPower <= -1.0f) {
                 rightPower = -1.0f;
             }
-
         }
 
         setMotorPower(drive_left, leftPower);
@@ -154,33 +153,33 @@ public class TuleFunctions extends TuleVariables {
         runWithEncoder(arm_right);
         runWithEncoder(arm_left);
 
-        last_armTime = current_armTime;
-        current_armTime = getRuntime();
-        last_armRightCount = current_armRightCount;
-        current_armRightCount = motorPosition(arm_right);
-        last_armLeftCount = current_armLeftCount;
-        current_armLeftCount = motorPosition(arm_left);
+        arm_time_last = arm_time_current;
+        arm_time_current = getRuntime();
+        arm_right_count_last = arm_right_count_current;
+        arm_right_count_current = motorPosition(arm_right);
+        arm_left_count_last = arm_left_count_current;
+        arm_left_count_current = motorPosition(arm_left);
 
-        last_arm_E = current_arm_E;
+        arm_error_last = arm_error_current;
         if (power >= 0) {
-            current_arm_E = current_armLeftCount - current_armRightCount;
+            arm_error_current = arm_left_count_current - arm_right_count_current;
         } else {
-            current_arm_E = -(current_armLeftCount - current_armRightCount);
+            arm_error_current = -(arm_left_count_current - arm_right_count_current);
         }
 
-        arm_P = arm_KP * current_arm_E;
-        arm_I = arm_KI * (arm_I + (((current_arm_E + last_arm_E) / 2)
-                * (current_armTime - last_armTime)));
-        arm_D = arm_KD * (current_arm_E - last_arm_E)
-                / (current_armTime - last_armTime);
+        arm_P = arm_KP * arm_error_current;
+        arm_I = arm_KI * (arm_I + (((arm_error_current + arm_error_last) / 2)
+                * (arm_time_current - arm_time_last)));
+        arm_D = arm_KD * (arm_error_current - arm_error_last)
+                / (arm_time_current - arm_time_last);
         arm_PID = arm_P + arm_I + arm_D;
         
         arm_left_v4 = arm_left_v3;
         arm_left_v3 = arm_left_v2;
         arm_left_v2 = arm_left_v1;
         arm_left_v1 = arm_left_v0;
-        arm_left_v0 = Math.abs((current_armLeftCount - last_armLeftCount)
-                / (current_armTime - last_armTime));
+        arm_left_v0 = Math.abs((arm_left_count_current - arm_left_count_last)
+                / (arm_time_current - arm_time_last));
         arm_left_v = (arm_left_v0 + arm_left_v1 + arm_left_v2
                 + arm_left_v3 + arm_left_v4) / 5;
         
@@ -188,60 +187,60 @@ public class TuleFunctions extends TuleVariables {
         arm_right_v3 = arm_right_v2;
         arm_right_v2 = arm_right_v1;
         arm_right_v1 = arm_right_v0;
-        arm_right_v0 = Math.abs((current_armRightCount - last_armRightCount)
-                / (current_armTime - last_armTime));
+        arm_right_v0 = Math.abs((arm_right_count_current - arm_right_count_last)
+                / (arm_time_current - arm_time_last));
         arm_right_v = (arm_right_v0 + arm_right_v1 + arm_right_v2
                 + arm_right_v3 + arm_right_v4) / 5;
 
-        if (Math.abs(current_arm_E) > max_error) {
-            max_error = Math.abs(current_arm_E);
+        if (Math.abs(arm_error_current) > arm_error_max) {
+            arm_error_max = Math.abs(arm_error_current);
         }
         
         if (power > 0 && arm_PID > 0 && arm_left_v > arm_right_v) {
-            armRightScale_p = armRightScale_p + Math.abs(arm_PID);
+            arm_right_scale_p = arm_right_scale_p + Math.abs(arm_PID);
         } else if (power < 0 && arm_PID > 0 && arm_left_v > arm_right_v) {
-            armRightScale_n = armRightScale_n + Math.abs(arm_PID);
+            arm_right_scale_n = arm_right_scale_n + Math.abs(arm_PID);
         }
 
         if (power > 0 && arm_PID < 0 && arm_right_v > arm_left_v) {
-            armLeftScale_p = armLeftScale_p + Math.abs(arm_PID);
+            arm_left_scale_p = arm_left_scale_p + Math.abs(arm_PID);
         } else if (power < 0 && arm_PID < 0 && arm_right_v > arm_left_v) {
-            armLeftScale_n = armLeftScale_n + Math.abs(arm_PID);
+            arm_left_scale_n = arm_left_scale_n + Math.abs(arm_PID);
         }
 
         if (power > 0) {
-            armLeftScale = armLeftScale_p;
-            armRightScale = armRightScale_p;
+            arm_left_scale = arm_left_scale_p;
+            arm_right_scale = arm_right_scale_p;
         } else if (power < 0) {
-            armLeftScale = armLeftScale_n;
-            armRightScale = armRightScale_n;
+            arm_left_scale = arm_left_scale_n;
+            arm_right_scale = arm_right_scale_n;
         }
 
-        if (armLeftScale > armRightScale) {
-            armRightPower = power * armRightScale/armLeftScale;
-            armLeftPower = power;
-        } else if (armRightScale > armLeftScale) {
-            armLeftPower = power * armLeftScale/armRightScale;
-            armRightPower = power;
+        if (arm_left_scale > arm_right_scale) {
+            arm_right_power = power * arm_right_scale/arm_left_scale;
+            arm_left_power = power;
+        } else if (arm_right_scale > arm_left_scale) {
+            arm_left_power = power * arm_left_scale/arm_right_scale;
+            arm_right_power = power;
         } else {
-            armRightPower = power;
-            armLeftPower = power;
+            arm_right_power = power;
+            arm_left_power = power;
         }
 
-        if (armLeftPower >= 1.0f) {
-            armLeftPower = 1.0f;
-        } else if (armLeftPower <= -1.0f) {
-            armLeftPower = -1.0f;
+        if (arm_left_power >= 1.0f) {
+            arm_left_power = 1.0f;
+        } else if (arm_left_power <= -1.0f) {
+            arm_left_power = -1.0f;
         }
 
-        if (armRightPower >= 1.0f) {
-            armRightPower = 1.0f;
-        } else if (armRightPower <= -1.0f) {
-            armRightPower = -1.0f;
+        if (arm_right_power >= 1.0f) {
+            arm_right_power = 1.0f;
+        } else if (arm_right_power <= -1.0f) {
+            arm_right_power = -1.0f;
         }
 
-        setMotorPower(arm_left, armLeftPower);
-        setMotorPower(arm_right, armRightPower);
+        setMotorPower(arm_left, arm_left_power);
+        setMotorPower(arm_right, arm_right_power);
     }
 
     void setScoopPosition(double position, double power) {
@@ -266,59 +265,6 @@ public class TuleFunctions extends TuleVariables {
             }
         }
     }
-
-    void setBallastPositions(String direction, double time) {
-        ballast_currentTime = getRuntime();
-
-        if (direction.equals("up") && ballastPosition == 0) {
-            if (!setBallasts) {
-                ballast_startTime = ballast_currentTime;
-                setBallasts = true;
-            }
-            ballast_goalTime = ballast_startTime + time;
-            setServo(leftBallast, 1.0f);
-            setServo(rightBallast, 1.0f);
-        } else if (direction.equals("down") && ballastPosition == 1) {
-            if (!setBallasts) {
-                ballast_startTime = ballast_currentTime;
-                setBallasts = true;
-            }
-            ballast_goalTime = ballast_startTime + time;
-            setServo(leftBallast, -1.0f);
-            setServo(rightBallast, -1.0f);
-        } else {
-            setServo(leftBallast, 0.0f);
-            setServo(rightBallast, 0.0f);
-        }
-
-        if (ballast_currentTime >= ballast_goalTime && setBallasts) {
-            setServo(leftBallast, 0.0f);
-            setServo(rightBallast, 0.0f);
-            setBallasts = false;
-            if (ballastPosition == 0) {
-                ballastPosition = 1;
-            } else {
-                ballastPosition = 0;
-            }
-        }
-    }
-
-    void setSlidePosition(double position, double power) {
-
-        if (power > 0.0f) {
-            if (motorPosition(slide) >= position) {
-                setMotorPower(slide, 0.0f);
-                setSlide = false;
-            }
-        } else if (power < 0.0f) {
-            if (motorPosition(slide) <= position) {
-                setMotorPower(slide, 0.0f);
-                setSlide = false;
-            }
-        }
-    }
-
-    //  TODO Add functions to automatically control dump and pivot motors
 
     void motorKill() {
         setMotorPower(drive_left, 0.0f);
