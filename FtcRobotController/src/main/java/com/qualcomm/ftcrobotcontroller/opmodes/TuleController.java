@@ -50,9 +50,9 @@ public class TuleController extends TuleControlFunctions {
             setScoop = false;
             runWithEncoder(scoop);
             setMotorPower(scoop, -gamepad2.left_stick_y);
-            if (motorPosition(scoop) > 90 * COUNTS_PER_DEGREE_SCOOP) {
+            if (motorPosition(scoop) > 90 * SCOOP_CPD) {
                 scoop_position = 1;
-            } else if (motorPosition(scoop) < 90 * COUNTS_PER_DEGREE_SCOOP) {
+            } else if (motorPosition(scoop) < 90 * SCOOP_CPD) {
                 scoop_position = 0;
             }
         } else if ((gamepad2.left_stick_button && scoop_timer == 0.0f) || setScoop) {

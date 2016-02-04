@@ -245,7 +245,7 @@ public class TuleFunctions extends TuleVariables {
 
     void setScoopPosition(double position, double power) {
         runWithEncoder(scoop);
-        position = position * COUNTS_PER_DEGREE_SCOOP;
+        position = position * SCOOP_CPD;
         setScoop = true;
         if (power > 0) {
             if (motorPosition(scoop) < position) {

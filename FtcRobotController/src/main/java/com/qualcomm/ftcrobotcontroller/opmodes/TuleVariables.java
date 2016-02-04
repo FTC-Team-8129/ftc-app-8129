@@ -6,24 +6,31 @@ public class TuleVariables extends TuleMotors {
 
     }
 
-    final double CPR_N40 = 1120;
+    final double ENCODER_PULSES = 28;
 
-    final double GEAR_RATIO_DRIVE = 1;
-    final double WHEEL_DIAMETER = 3;
-    final double TURN_DIAMETER = 15;
-    final double COUNTS_PER_INCH_DRIVE =
-            CPR_N40 * GEAR_RATIO_DRIVE / (WHEEL_DIAMETER * Math.PI);
-    final double COUNTS_PER_DEGREE_DRIVE =
-            (COUNTS_PER_INCH_DRIVE * Math.PI * TURN_DIAMETER) / 360;
+    final double DRIVE_MOTOR = 60;
+    final double DRIVE_GEAR_RATIO = 1;
+    final double DRIVE_DIM_WHEEL = 3;
+    final double DRIVE_DIM_TURN = 15;
+    final double DRIVE_CPI = (ENCODER_PULSES * DRIVE_MOTOR
+            * DRIVE_GEAR_RATIO) / (Math.PI * DRIVE_DIM_WHEEL);
+    final double DRIVE_CPD =
+            DRIVE_CPI * DRIVE_DIM_TURN / 360;
 
+    final double ARM_MOTOR = 60;
+    final double ARM_GEAR_RATIO = 1;
+    final double ARM_DIM_RACKANDPINION = 2.5;
+    final double ARM_CPI = (ENCODER_PULSES * ARM_MOTOR
+            * ARM_GEAR_RATIO) / ARM_DIM_RACKANDPINION;
+
+    final double SCOOP_MOTOR = 40;
     final double SCOOP_GEAR_RATIO = 2;
-    final double COUNTS_PER_DEGREE_SCOOP =
-            (CPR_N40 * SCOOP_GEAR_RATIO) / 360;
+    final double SCOOP_CPD = (ENCODER_PULSES * SCOOP_MOTOR
+            * SCOOP_GEAR_RATIO) / 360;
 
     boolean controller = false;
     boolean reverseControl = false;
     boolean setScoop = false;
-    boolean setSlide = false;
 
     double drive_time_last = 0.0f;
     double drive_time_current = 0.0f;
