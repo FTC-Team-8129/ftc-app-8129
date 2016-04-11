@@ -42,107 +42,107 @@ public class TuleFunctions extends TuleVariables {
             rightPower = 0.0f;
         }
 
-        runWithEncoder(drive_right);
-        runWithEncoder(drive_left);
-
-        drive_time_last = drive_time_current;
-        drive_time_current = getRuntime();
-        drive_right_count_last = drive_right_count_current;
-        drive_right_count_current = motorPosition(drive_right);
-        drive_left_count_last = drive_right_count_current;
-        drive_right_count_current = motorPosition(drive_left);
-
-        drive_dt = drive_time_current - drive_time_last;
-
-        if (leftPower > 0) {
-            drive_left_dx_p = drive_left_count_current - drive_left_count_last;
-            drive_left_v_p = 0.9f * drive_left_v_p + 0.1f * drive_left_dx_p / drive_dt;
-            drive_left_power_p = 0.9f * drive_left_power_p + 0.1f * leftPower;
-            drive_left_ratio_p = drive_left_v_p / drive_left_power_p;
-            drive_left_v = Math.abs(drive_left_v_p);
-            drive_left_ratio = Math.abs(drive_left_ratio_p);
-        } else if (leftPower < 0) {
-            drive_left_dx_n = drive_left_count_current - drive_left_count_last;
-            drive_left_v_n = 0.9f * drive_left_v_n + 0.1f * drive_left_dx_n / drive_dt;
-            drive_left_power_n = 0.9f * drive_left_power_n + 0.1f * leftPower;
-            drive_left_ratio_n = drive_left_v_n / drive_left_power_n;
-            drive_left_v = Math.abs(drive_left_v_n);
-            drive_left_ratio = Math.abs(drive_left_ratio_n);
-        }
-
-        if (rightPower > 0) {
-            drive_right_dx_p = drive_right_count_current - drive_right_count_last;
-            drive_right_v_p = 0.9f * drive_right_v_p + 0.1f * drive_right_dx_p / drive_dt;
-            drive_right_power_p = 0.9f * drive_right_power_p + 0.1f * rightPower;
-            drive_right_ratio_p = drive_right_v_p / drive_right_power_p;
-            drive_right_v = Math.abs(drive_right_v_p);
-            drive_right_ratio = Math.abs(drive_right_ratio_p);
-        } else if (rightPower < 0) {
-            drive_right_dx_n = drive_right_count_current - drive_right_count_last;
-            drive_right_v_n = 0.9f * drive_right_v_n + 0.1f * drive_right_dx_n / drive_dt;
-            drive_right_power_n = 0.9f * drive_right_power_n + 0.1f * rightPower;
-            drive_right_ratio_n = drive_right_v_n / drive_right_power_n;
-            drive_right_v = Math.abs(drive_right_v_n);
-            drive_right_ratio = Math.abs(drive_right_ratio_n);
-        }
-
-        if (!controller) {
-
-            drive_error_last = drive_error_current;
-            drive_error_current = drive_left_ratio - drive_right_ratio;
-
-            if (drive_error_current > 0.0f) {
-                if (leftPower > 0) {
-                    drive_left_scale_p = drive_left_scale_p - drive_scale;
-                    drive_left_scale = drive_left_scale_p;
-                } else if (leftPower < 0.0f) {
-                    drive_left_scale_n = drive_left_scale_n - drive_scale;
-                    drive_left_scale = drive_left_scale_n;
-                }
-                if (rightPower > 0.0f) {
-                    drive_right_scale_p = drive_right_scale_p + drive_scale;
-                    drive_right_scale = drive_right_scale_p;
-                } else if (rightPower < 0.0f) {
-                    drive_right_scale_n = drive_right_scale_n + drive_scale;
-                    drive_right_scale = drive_right_scale_n;
-                }
-            }
-
-            if (drive_error_current < 0.0f) {
-                if (leftPower > 0) {
-                    drive_left_scale_p = drive_left_scale_p + drive_scale;
-                    drive_left_scale = drive_left_scale_p;
-                } else if (leftPower < 0.0f) {
-                    drive_left_scale_n = drive_left_scale_n + drive_scale;
-                    drive_left_scale = drive_left_scale_n;
-                }
-                if (rightPower > 0.0f) {
-                    drive_right_scale_p = drive_right_scale_p - drive_scale;
-                    drive_right_scale = drive_right_scale_p;
-                } else if (rightPower < 0.0f) {
-                    drive_right_scale_n = drive_right_scale_n - drive_scale;
-                    drive_right_scale = drive_right_scale_n;
-                }
-            }
-
-            if (drive_right_scale > drive_left_scale) {
-                leftPower = leftPower * drive_left_scale / drive_right_scale;
-            } else if (drive_right_scale < drive_left_scale) {
-                rightPower = rightPower * drive_right_scale / drive_left_scale;
-            }
-
-            if (leftPower >= 1.0f) {
-                leftPower = 1.0f;
-            } else if (leftPower <= -1.0f) {
-                leftPower = -1.0f;
-            }
-
-            if (rightPower >= 1.0f) {
-                rightPower = 1.0f;
-            } else if (rightPower <= -1.0f) {
-                rightPower = -1.0f;
-            }
-        }
+//        runWithEncoder(drive_right);
+//        runWithEncoder(drive_left);
+//
+//        drive_time_last = drive_time_current;
+//        drive_time_current = getRuntime();
+//        drive_right_count_last = drive_right_count_current;
+//        drive_right_count_current = motorPosition(drive_right);
+//        drive_left_count_last = drive_right_count_current;
+//        drive_right_count_current = motorPosition(drive_left);
+//
+//        drive_dt = drive_time_current - drive_time_last;
+//
+//        if (leftPower > 0) {
+//            drive_left_dx_p = drive_left_count_current - drive_left_count_last;
+//            drive_left_v_p = 0.9f * drive_left_v_p + 0.1f * drive_left_dx_p / drive_dt;
+//            drive_left_power_p = 0.9f * drive_left_power_p + 0.1f * leftPower;
+//            drive_left_ratio_p = drive_left_v_p / drive_left_power_p;
+//            drive_left_v = Math.abs(drive_left_v_p);
+//            drive_left_ratio = Math.abs(drive_left_ratio_p);
+//        } else if (leftPower < 0) {
+//            drive_left_dx_n = drive_left_count_current - drive_left_count_last;
+//            drive_left_v_n = 0.9f * drive_left_v_n + 0.1f * drive_left_dx_n / drive_dt;
+//            drive_left_power_n = 0.9f * drive_left_power_n + 0.1f * leftPower;
+//            drive_left_ratio_n = drive_left_v_n / drive_left_power_n;
+//            drive_left_v = Math.abs(drive_left_v_n);
+//            drive_left_ratio = Math.abs(drive_left_ratio_n);
+//        }
+//
+//        if (rightPower > 0) {
+//            drive_right_dx_p = drive_right_count_current - drive_right_count_last;
+//            drive_right_v_p = 0.9f * drive_right_v_p + 0.1f * drive_right_dx_p / drive_dt;
+//            drive_right_power_p = 0.9f * drive_right_power_p + 0.1f * rightPower;
+//            drive_right_ratio_p = drive_right_v_p / drive_right_power_p;
+//            drive_right_v = Math.abs(drive_right_v_p);
+//            drive_right_ratio = Math.abs(drive_right_ratio_p);
+//        } else if (rightPower < 0) {
+//            drive_right_dx_n = drive_right_count_current - drive_right_count_last;
+//            drive_right_v_n = 0.9f * drive_right_v_n + 0.1f * drive_right_dx_n / drive_dt;
+//            drive_right_power_n = 0.9f * drive_right_power_n + 0.1f * rightPower;
+//            drive_right_ratio_n = drive_right_v_n / drive_right_power_n;
+//            drive_right_v = Math.abs(drive_right_v_n);
+//            drive_right_ratio = Math.abs(drive_right_ratio_n);
+//        }
+//
+//        if (!controller) {
+//
+//            drive_error_last = drive_error_current;
+//            drive_error_current = drive_left_ratio - drive_right_ratio;
+//
+//            if (drive_error_current > 0.0f) {
+//                if (leftPower > 0) {
+//                    drive_left_scale_p = drive_left_scale_p - drive_scale;
+//                    drive_left_scale = drive_left_scale_p;
+//                } else if (leftPower < 0.0f) {
+//                    drive_left_scale_n = drive_left_scale_n - drive_scale;
+//                    drive_left_scale = drive_left_scale_n;
+//                }
+//                if (rightPower > 0.0f) {
+//                    drive_right_scale_p = drive_right_scale_p + drive_scale;
+//                    drive_right_scale = drive_right_scale_p;
+//                } else if (rightPower < 0.0f) {
+//                    drive_right_scale_n = drive_right_scale_n + drive_scale;
+//                    drive_right_scale = drive_right_scale_n;
+//                }
+//            }
+//
+//            if (drive_error_current < 0.0f) {
+//                if (leftPower > 0) {
+//                    drive_left_scale_p = drive_left_scale_p + drive_scale;
+//                    drive_left_scale = drive_left_scale_p;
+//                } else if (leftPower < 0.0f) {
+//                    drive_left_scale_n = drive_left_scale_n + drive_scale;
+//                    drive_left_scale = drive_left_scale_n;
+//                }
+//                if (rightPower > 0.0f) {
+//                    drive_right_scale_p = drive_right_scale_p - drive_scale;
+//                    drive_right_scale = drive_right_scale_p;
+//                } else if (rightPower < 0.0f) {
+//                    drive_right_scale_n = drive_right_scale_n - drive_scale;
+//                    drive_right_scale = drive_right_scale_n;
+//                }
+//            }
+//
+//            if (drive_right_scale > drive_left_scale) {
+//                leftPower = leftPower * drive_left_scale / drive_right_scale;
+//            } else if (drive_right_scale < drive_left_scale) {
+//                rightPower = rightPower * drive_right_scale / drive_left_scale;
+//            }
+//
+//            if (leftPower >= 1.0f) {
+//                leftPower = 1.0f;
+//            } else if (leftPower <= -1.0f) {
+//                leftPower = -1.0f;
+//            }
+//
+//            if (rightPower >= 1.0f) {
+//                rightPower = 1.0f;
+//            } else if (rightPower <= -1.0f) {
+//                rightPower = -1.0f;
+//            }
+//        }
 
         setMotorPower(drive_left, leftPower);
         setMotorPower(drive_right, rightPower);

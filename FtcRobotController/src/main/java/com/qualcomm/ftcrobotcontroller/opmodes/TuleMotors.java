@@ -10,6 +10,7 @@ public class TuleMotors extends TuleSetup {
     DcMotor drive_right;
     DcMotor arm_left;
 	DcMotor arm_right;
+    DcMotor arm;
     DcMotor dump;
     DcMotor pivot;
     DcMotor slide;
@@ -58,6 +59,14 @@ public class TuleMotors extends TuleSetup {
 		}
 
         try {
+            arm = hardwareMap.dcMotor.get("arm");
+        } catch (Exception exception) {
+            addWarningMessage("Arm Motor");
+            DbgLog.msg(exception.getLocalizedMessage());
+            arm = null;
+        }
+
+        try {
             dump = hardwareMap.dcMotor.get("dump");
             dump.setDirection(DcMotor.Direction.REVERSE);
         } catch (Exception exception) {
@@ -76,6 +85,7 @@ public class TuleMotors extends TuleSetup {
 
         try {
             slide = hardwareMap.dcMotor.get("slide");
+            slide.setDirection(DcMotor.Direction.REVERSE);
         } catch (Exception exception) {
             addWarningMessage("Slide Motor");
             DbgLog.msg(exception.getLocalizedMessage());

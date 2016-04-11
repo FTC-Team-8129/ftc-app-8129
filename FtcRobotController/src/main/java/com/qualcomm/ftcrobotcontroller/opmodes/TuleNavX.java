@@ -9,6 +9,7 @@ public class TuleNavX extends TuleServos {
 	
 	final int NAVX_PORT = 0;
 	final byte NAVX_RATE = 50;
+    final AHRS.DeviceDataType NAVX_DATATYPE = AHRS.DeviceDataType.kProcessedData;
 	
 	public TuleNavX() {
 		
@@ -22,7 +23,7 @@ public class TuleNavX extends TuleServos {
 			imuNavX = AHRS.getInstance(
 				hardwareMap.deviceInterfaceModule.get("Device Interface Module 1"),
 				NAVX_PORT,
-				AHRS.DeviceDataType.kProcessedData,
+				NAVX_DATATYPE,
 				NAVX_RATE);
 		} catch (Exception exception) {
 			addWarningMessage("navX-micro IMU");

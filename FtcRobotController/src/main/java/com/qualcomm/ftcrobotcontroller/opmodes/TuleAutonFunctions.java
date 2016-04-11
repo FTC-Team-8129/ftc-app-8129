@@ -42,7 +42,7 @@ public class TuleAutonFunctions extends TuleTelemetry {
         runWithEncoder(drive_left);
         runWithEncoder(drive_right);
         if (movement.equals("forward")) {
-            distance = distance*COUNTS_PER_INCH_DRIVE;
+            distance = distance*DRIVE_CPI;
             setDrivePower(power,power);
             if (Math.abs(motorPosition(drive_left)) >= distance) {
                 setMotorPower(drive_left,0.0f);
@@ -57,9 +57,10 @@ public class TuleAutonFunctions extends TuleTelemetry {
                 resetEncoder(drive_right);
                 nextState();
             }
+
         }
         if (movement.equals("backwards")) {
-            distance = distance*COUNTS_PER_INCH_DRIVE;
+            distance = distance*DRIVE_CPI;
             setDrivePower(-power,-power);
             if (Math.abs(motorPosition(drive_left)) >= distance) {
                 setMotorPower(drive_left,0.0f);
@@ -76,7 +77,7 @@ public class TuleAutonFunctions extends TuleTelemetry {
             }
         }
         if (movement.equals("right")) {
-            distance = distance*COUNTS_PER_DEGREE_DRIVE;
+            distance = distance*DRIVE_CPD;
             setDrivePower(power,-power);
             if (Math.abs(motorPosition(drive_left)) >= distance) {
                 setMotorPower(drive_left,0.0f);
@@ -93,7 +94,7 @@ public class TuleAutonFunctions extends TuleTelemetry {
             }
         }
         if (movement.equals("left")) {
-            distance = distance*COUNTS_PER_DEGREE_DRIVE;
+            distance = distance*DRIVE_CPD;
             setDrivePower(-power,power);
             if (Math.abs(motorPosition(drive_left)) >= distance) {
                 setMotorPower(drive_left,0.0f);
